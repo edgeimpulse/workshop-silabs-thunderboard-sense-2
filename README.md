@@ -1,23 +1,24 @@
-# Example SiLabs Thunderboard Sense 2
+# Workshop SiLabs Thunderboard Sense 2
 
 This example has been designed for the [EOT - Electronic of Tomorrow 2021](https://www.eot.dk/besoeg/workshops) workshops.
 
-* **Duration:** 2.5 hours
+* **Duration:** ~2.5 hours
 * **Difficulty:** Intermediate
 * **Objectives:** Build your first TinyML application by collecting data from real sensor, setting your machine learning pipeline in the cloud, validating your model and deploying it back to your device.
 
 ## Workshop Agenda
 
-1. Setup local environment
-2. **Project 1: Movement classification using a 3-axis accelerometer**
- * Flash default Edge Impulse firmware
- * Collect data
- * Create an Impulse
- * Preprocess your data using Spectral Analysis
- * Train your machine learning model using Neural Networks
- * Validate your model 
- * Deploy your model
-3. **Project 2: Keyword Spotting using a microphone**
+1. **Introduction** (~10 min)
+2. **Colaborative Project: Keyword Spotting using a microphone** (~30 min)
+3. **Individual Project: Movement classification using a 3-axis accelerometer** 
+ * Flash default Edge Impulse firmware (~15 min)
+ * Collect data (~15 min)
+ * Create an Impulse (~5 min)
+ * Preprocess your data using Spectral Analysis (~5 min)
+ * Train your machine learning model using Neural Networks (~15 min)
+ * Validate your model (~5 min)
+ * Deploy your model (~20 min)
+4. Ressources: Setup local environment (if not using Docker)
 
 ## Hardware overview:
 
@@ -46,10 +47,15 @@ If you don't want to use Docker, you can go to the [setup your local environment
 * [Python 3.6.8](https://www.python.org/downloads/release/python-368/) (make sure your Python version exactly match this version).
 * [Java 64 bit JVM 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) or higher.
 
+## Colaborative Project: Keyword Spotting using a microphone
+
+During this first project, we will be **collecting the data together** and the instructor will show you the entire **pipeline to build your machine learning project**.
+We will try to classify 4 keywords: `Play`, `Pause`, `Answer`, `Ignore` and a last class `Unknown` class. 
+
+We will follow part of this tutorial in order to collect the data together: [Utilize the Power of the Crowd for Data Collection](https://www.edgeimpulse.com/blog/utilize-the-power-of-the-crowd-for-data-collection). Collecting data from various participants will have several benefits such as being able to quickly gather a lot of data while reducing the bias in the machine learning model. 
 
 
-
-## Project 1: Movement classification using a 3-axis accelerometer
+## Individual Project: Movement classification using a 3-axis accelerometer
 
 In this project we will try to classify 5 kind of movements sampled at 100Hz: 
 
@@ -59,7 +65,7 @@ In this project we will try to classify 5 kind of movements sampled at 100Hz:
 * `Hold`, board is held in your hand, very close but slightly different from `idle` because of your breath movement for example. We will see later that it will be hard to classify `hold` vs `idle` correctly.
 * `Unknown`, moving the board randomly.
 
-Feel free to classify other kind of movements, such as `updown`, `snake`, `wave` in this [tutorial](https://docs.edgeimpulse.com/docs/continuous-gestures) or `squats`, `jumping jacks` and `rest` in this [tutorial](https://github.com/edgeimpulse/example-SparkFun-MicroMod-nRF52840).
+Feel free to classify other kind of movements, such as `updown`, `snake`, `wave` like in this [tutorial](https://docs.edgeimpulse.com/docs/continuous-gestures) or `squats`, `jumping jacks` and `rest` like in this [tutorial](https://github.com/edgeimpulse/example-SparkFun-MicroMod-nRF52840).
 
 
 ### 1) Flash default Edge Impulse firmware
@@ -134,7 +140,7 @@ You can play with the DSP parameters and regenerate your features to see if you 
 
 To train your machine learning model using neural networks, go to the `NN Classifier` page. 
 
-**Keep in mind that working on a machine learning project is an iterative process, to obtain better results, you can add more data, train longer, adjust the DSP parameters, change your neural network architecture or hyper parameters.** You can check the [increasing model performances](https://docs.edgeimpulse.com/docs/increasing-model-performance) section on our documentation website. 
+**Keep in mind that working on a machine learning project is an iterative process, to obtain better results, you can add more data, train longer, adjust the DSP parameters, change your neural network architecture or hyper parameters.** You can check the [increasing model performances](https://docs.edgeimpulse.com/docs/increasing-model-performance) section on our documentation website for more tips. 
 
 We will see several iterations we did for this project so you can better understand the process we have been following:
 
@@ -183,9 +189,52 @@ To deploy the model, you can either download the binary firmware from the studio
 
 We will show you the two ways.
 
-#### Download and flash the ready-to-go firmware:
+
+#### Download and flash the ready-to-go firmware
 
 ![deployment-library](assets/deployment-library.png)
+
+Select the SiLabs Thunderboard Sense 2 and click on `Build` at the bottom of the page.
+Wait few seconds while your firmware gets generated. 
+
+*What actually happens in the background is that by clicking on the build button, you trigger a pre-configured docker job that is compiling your firmware with your model parameters, similar to what we will see in the next section.*
+
+Now you should have download the `.bin` firmware. Just drag and drop it under the `/TB004` USB mass-storage device. Wait a few seconds and open a terminal and type:
+
+```
+edge-impulse-run-impulse
+```
+
+And the device will start classifying your movements:
+
+```
+Edge Impulse impulse runner v1.13.10
+WARN: You're running an outdated version of the Edge Impulse CLI tools
+      Upgrade via `npm update -g edge-impulse-cli`
+[SER] Connecting to /dev/tty.usbmodem0004401637981
+[SER] Serial is connected, trying to read config...
+[SER] Retrieved configuration
+[SER] Device is running AT command version 1.3.0
+[SER] Started inferencing, press CTRL+C to stop...
+LSE
+Inferencing settings:
+	Interval: 10ms.
+	Frame size: 600
+	Sample length: 2000ms.
+	No. of classes: 5
+Starting inferencing, press 'b' to break
+Starting inferencing in 2 seconds...
+Sampling...
+Predictions (DSP: 29 ms., Classification: 1 ms., Anomaly: 0 ms.): 
+    circle: 	0.00000
+    hold: 	0.10937
+    idle: 	0.89062
+    square: 	0.00000
+    unknown: 	0.00000
+Starting inferencing in 2 seconds...
+```
+
+#### Build the firmware from the C++ library
 
 
 ## Setup your local environment (if not using Docker)
