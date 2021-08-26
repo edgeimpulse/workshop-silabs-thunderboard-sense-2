@@ -41,7 +41,6 @@ Thunderboard Sense 2 User's Guide: [Download PDF](https://www.silabs.com/documen
 
 * [Edge Impulse Studio](https://studio.edgeimpulse.com/)
 * [Edge Impulse CLI](https://docs.edgeimpulse.com/docs/cli-installation)
-* [Docker](https://docs.docker.com/get-docker/) (optional but much easier to build the firmware)
 * [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
 
 ## Setup your local environment 
