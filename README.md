@@ -9,7 +9,8 @@ This example has been designed for the [EOT - Electronic of Tomorrow 2021](https
 ## Workshop Agenda
 
 1. **Introduction** (~10 min)
-2. **Colaborative Project: Keyword Spotting using a microphone** (~30 min)
+2. **Setup local environment** (~15 min)
+2. **Colaborative Project: Keyword Spotting using a microphone** (~20 min)
 3. **Individual Project: Movement classification using a 3-axis accelerometer** 
  * Flash default Edge Impulse firmware (~15 min)
  * Collect data (~15 min)
@@ -17,8 +18,9 @@ This example has been designed for the [EOT - Electronic of Tomorrow 2021](https
  * Preprocess your data using Spectral Analysis (~5 min)
  * Train your machine learning model using Neural Networks (~15 min)
  * Validate your model (~5 min)
- * Deploy your model (~20 min)
-4. Ressources: Setup local environment (if not using Docker)
+ * Deploy your model (~15 min)
+
+
 
 ## Hardware overview:
 
@@ -40,12 +42,37 @@ Thunderboard Sense 2 User's Guide: [Download PDF](https://www.silabs.com/documen
 * [Edge Impulse Studio](https://studio.edgeimpulse.com/)
 * [Edge Impulse CLI](https://docs.edgeimpulse.com/docs/cli-installation)
 * [Docker](https://docs.docker.com/get-docker/) (optional but much easier to build the firmware)
-
-If you don't want to use Docker, you can go to the [setup your local environment](#setup-your-local-environment-if-not-using-docker) section to install:
-
 * [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
-* [Python 3.6.8](https://www.python.org/downloads/release/python-368/) (make sure your Python version exactly match this version).
-* [Java 64 bit JVM 11](https://docs.aws.amazon.com/corretto/latest/corretto-11-ug/downloads-list.html) or higher.
+
+## Setup your local environment 
+
+You can download the tools while we do the first collaborative project together so you can save time. Below is a quick guide on how to setup Simplicity Studio 5:
+
+### Simplicity Studio
+
+Download Simplicity Studio from this link: [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
+
+Use the provided installer to install it on your local machine.
+
+Once installed, you should see the following view:
+
+![ss5-installation-1](assets/ss5-installation-1.png)
+
+Accept the agreements and create an account:
+
+![ss5-create-account](assets/ss5-create-account.png)
+
+Click on install in the menu and click on `Install by connecting device(s)`:
+
+![ss5-installation-2](assets/ss5-installation-2.png)
+
+Connect your SiLabs Thunderboard Sense 2 board to your computer using a micro usb:
+
+![ss5-installation-3](assets/ss5-installation-3.png)
+
+Now use the default parameters to install the required SDKs and dependencies. This step can take up to 15 minutes depending on your internet connection. Once finish, you will need to restart Simplicity Studio 5:
+
+![ss5-installation-6](assets/ss5-installation-6.png)
 
 ## Colaborative Project: Keyword Spotting using a microphone
 
@@ -53,7 +80,6 @@ During this first project, we will be **collecting the data together** and the i
 We will try to classify 4 keywords: `Play`, `Pause`, `Answer`, `Ignore` and a last class `Unknown` class. 
 
 We will follow part of this tutorial in order to collect the data together: [Utilize the Power of the Crowd for Data Collection](https://www.edgeimpulse.com/blog/utilize-the-power-of-the-crowd-for-data-collection). Collecting data from various participants will have several benefits such as being able to quickly gather a lot of data while reducing the bias in the machine learning model. 
-
 
 ## Individual Project: Movement classification using a 3-axis accelerometer
 
@@ -66,6 +92,8 @@ In this project we will try to classify 5 kind of movements sampled at 100Hz:
 * `Unknown`, moving the board randomly.
 
 Feel free to classify other kind of movements, such as `updown`, `snake`, `wave` like in this [tutorial](https://docs.edgeimpulse.com/docs/continuous-gestures) or `squats`, `jumping jacks` and `rest` like in this [tutorial](https://github.com/edgeimpulse/example-SparkFun-MicroMod-nRF52840).
+
+The public version of this project can be found here: [https://studio.edgeimpulse.com/public/45631/latest](https://studio.edgeimpulse.com/public/45631/latest)
 
 
 ### 1) Flash default Edge Impulse firmware
@@ -236,38 +264,123 @@ Starting inferencing in 2 seconds...
 
 #### Build the firmware from the C++ library
 
+To build the firmware from the C++ library using Simplicity Studio 5, we will import a simplicity project file (`.sls` file), replace some generated folders in the `edgeimpulse` folder in order to build the firmware according to your projects parameters and finally, flash the firmware.
 
-## Setup your local environment (if not using Docker)
+First open Simplicity Studio 5 and import the `simplicity-studio` folder present in this repository:
 
-### Simplicity Studio
+![ss5-import-project](assets/ss5-import-project.png)
 
-Download Simplicity Studio from this link: [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
+Browse the folder location:
 
-Use the provided installer to install it on your local machine.
+![ss5-import-project-1](assets/ss5-import-project-1.png)
 
-Once installed, you should see the following view:
+Leave the default parameters:
 
-![ss5-installation-1](assets/ss5-installation-1.png)
+![ss5-import-project-2](assets/ss5-import-project-2.png)
 
-Accept the agreements and create an account:
+![ss5-import-project-3](assets/ss5-import-project-3.png)
 
-![ss5-create-account](assets/ss5-create-account.png)
+![ss5-import-project-4](assets/ss5-import-project-4.png)
 
-Click on install in the menu and click on `Install by connecting device(s)`:
+Once your workspace has successfully imported your project, go back to Edge Impulse Studio and download the C++ library of your project from the Deployment tab:
 
-![ss5-installation-2](assets/ss5-installation-2.png)
+![studio-deployment-c+](assets/studio-deployment-c+.png)
 
-Connect your SiLabs Thunderboard Sense 2 board to your computer using a micro usb:
+Extract the `.zip` and copy the `model-parameters` and `tflite-model` folder from the generated library to the `edgeimpulse` folder in Simplicity Studio:
 
-![ss5-installation-3](assets/ss5-installation-3.png)
+![ss5-copy-folders](assets/ss5-copy-folders.png)
 
-Now use the default parameters to install the required SDKs and dependencies. This step can take up to 15 minutes depending on your internet connection. Once finish, you will need to restart Simplicity Studio 5:
+*Note: As of Aug 26, 2021, `edge-impulse-sdk` from the generated library has not been updated with the latest version present in the `.sls` file. Do not replace it.*
 
-![ss5-installation-6](assets/ss5-installation-6.png)
+Now select the "Copy files and folder" option, click `OK` and choose "Overwrite all" on the next screen.
+
+![ss5-copy-file-and-folder](assets/ss5-copy-file-and-folder.png)
+
+You can now compile the firmware by clicking on the hammer icon on the upper menu:
+
+![ss5-compile](assets/ss5-compile.png)
+
+Once finish, you should see a message on the Console looking similar to this:
 
 
+```
+Building hex file: ei-ssv5-project.hex
+arm-none-eabi-objcopy -O ihex "ei-ssv5-project.axf" "ei-ssv5-project.hex"
+ 
+Building bin file: ei-ssv5-project.bin
+arm-none-eabi-objcopy -O binary "ei-ssv5-project.axf" "ei-ssv5-project.bin"
+ 
+Building s37 file: ei-ssv5-project.s37
+arm-none-eabi-objcopy -O srec "ei-ssv5-project.axf" "ei-ssv5-project.s37"
+ 
+Running size tool
+arm-none-eabi-size "ei-ssv5-project.axf" -A
+ei-ssv5-project.axf  :
+section              size        addr
+.text              349576           0
+.ARM.exidx              8      349576
+.stack              32768   536870912
+.data                1892   536903680
+.bss                19464   536905572
+.heap              208016   536925040
+.nvm                 4096      349584
+.ARM.attributes        46           0
+.comment               77           0
+.debug_info       1207717           0
+.debug_abbrev      117623           0
+.debug_loc         448371           0
+.debug_aranges      13256           0
+.debug_ranges       53416           0
+.debug_macro       353083           0
+.debug_line        585662           0
+.debug_str        1997941           0
+.debug_frame        53416           0
+Total             5446428
 
+16:08:49 Build Finished. 0 errors, 13 warnings. (took 21s.205ms)
+```
 
+To flash the device, do a right click on the `ei-ssv5-project.hex` file and select `Flash to Device`:
 
+![ss5-flash](assets/ss5-flash.png)
 
+Leave the default parameters and click on `Program`:
 
+![ss5-flash-1](assets/ss5-flash-1.png)
+
+![ss5-flash-2](assets/ss5-flash-2.png)
+
+You device's RGB leds should blink. Wait a few seconds and open a terminal and type:
+
+```
+edge-impulse-run-impulse
+```
+
+And the device will start classifying your movements:
+
+```
+Edge Impulse impulse runner v1.13.10
+WARN: You're running an outdated version of the Edge Impulse CLI tools
+      Upgrade via `npm update -g edge-impulse-cli`
+[SER] Connecting to /dev/tty.usbmodem0004401637981
+[SER] Serial is connected, trying to read config...
+[SER] Retrieved configuration
+[SER] Device is running AT command version 1.3.0
+[SER] Started inferencing, press CTRL+C to stop...
+LSE
+Inferencing settings:
+	Interval: 10ms.
+	Frame size: 600
+	Sample length: 2000ms.
+	No. of classes: 5
+Starting inferencing, press 'b' to break
+Starting inferencing in 2 seconds...
+Sampling...
+Predictions (DSP: 29 ms., Classification: 1 ms., Anomaly: 0 ms.): 
+    circle: 	0.00000
+    hold: 	0.10937
+    idle: 	0.89062
+    square: 	0.00000
+    unknown: 	0.00000
+Starting inferencing in 2 seconds...
+```
