@@ -19,6 +19,7 @@ This example has been designed for the [EOT - Electronic of Tomorrow 2021](https
  * Train your machine learning model using Neural Networks (~15 min)
  * Validate your model (~5 min)
  * Deploy your model (~15 min)
+ * Going further: Adding your custom logic to the default firmware (~15 min)
 
 
 
@@ -383,3 +384,59 @@ Predictions (DSP: 29 ms., Classification: 1 ms., Anomaly: 0 ms.):
     unknown: 	0.00000
 Starting inferencing in 2 seconds...
 ```
+
+This is nice, right? Now what if I want to add a custom piece of code to create my own version to switch on different LEDs based on the prediction for example? We will see how to do that in the next section:
+
+### Going further: Adding your custom logic to the default firmware
+
+To modify the behaviour of our device after running the inference, we will modify the following file: `edgeimpulse/ingestion-sdk-c/ei_run_impulse.cpp`:
+
+Add the following lines after `#include "ei_device_silabs_efm32mg.h"`:
+
+```
+extern "C" {
+    void rgb_led_set(uint8_t m, uint8_t r, uint8_t g, uint8_t b);
+}
+
+/* Constants --------------------------------------------------------------- */
+#define EI_LED_BLUE     rgb_led_set(0xFF, 58>>2, 180>>2, 205>>2)
+#define EI_LED_GREEN    rgb_led_set(0xFF, 164>>2, 198>>2, 9>>2)
+#define EI_LED_YELLOW   rgb_led_set(0xFF, 255>>2, 187>>2, 5>>2)
+#define EI_LED_RED      rgb_led_set(0xFF, 255>>2, 67>>2, 26>>2)
+#define EI_LED_OFF      rgb_led_set(0xFF, 0, 0, 0)
+```
+
+![ss5-custom-code](assets/ss5-custom-code.png)
+
+Then go down to the `void run_nn(bool debug)` function and after the following lines:
+
+```
+if(result.classification[ix].value > 0.8 && prev_classification != ix) {
+   send_classifier_output((const uint8_t *)result.classification[ix].label);
+   prev_classification = ix;
+}
+```
+
+add the piece of code that will switch on a blue LED for `circle`, red for `square`, green for `idle`, yellow for `hold` and switch off the LED for `unknown:
+
+```
+if(strcmp(result.classification[ix].label, "circle") == 0 && result.classification[ix].value > 0.8) {
+  EI_LED_BLUE;
+}
+else if(strcmp(result.classification[ix].label, "square") == 0 && result.classification[ix].value > 0.8) {
+  EI_LED_RED;
+}
+else if(strcmp(result.classification[ix].label, "idle") == 0 && result.classification[ix].value > 0.8) {
+  EI_LED_GREEN;
+            }
+else if(strcmp(result.classification[ix].label, "hold") == 0 && result.classification[ix].value > 0.8) {
+  EI_LED_YELLOW;
+            }
+else if(strcmp(result.classification[ix].label, "unknown") == 0 && result.classification[ix].value > 0.8){
+  EI_LED_OFF;
+}
+```
+
+Now compile your code and flash it again, you will see the LEDs changing colors as you change your movements:
+
+![silabs-movements](assets/silabs-movements.gif)
