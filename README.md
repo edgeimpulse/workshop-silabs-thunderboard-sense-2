@@ -81,6 +81,18 @@ We will try to classify 4 keywords: `Play`, `Pause`, `Answer`, `Ignore` and a la
 
 We will follow part of this tutorial in order to collect the data together: [Utilize the Power of the Crowd for Data Collection](https://www.edgeimpulse.com/blog/utilize-the-power-of-the-crowd-for-data-collection). Collecting data from various participants will have several benefits such as being able to quickly gather a lot of data while reducing the bias in the machine learning model. 
 
+Here are the link of the prepared project, just open theses links with your phone, record the given keyword for 30 seconds (you can do this more than once if you'd like). **Make sure to leave one second between each keyword so the ingestion can work properly**:
+
+* [Play](https://smartphone.edgeimpulse.com/keyword.html?apiKey=ei_5d252c97331d8d9651c2fd44168aa5f06d9d1ca6852caef1&sampleLength=30000&keyword=play&frequency=16000) 
+
+* [Pause](https://smartphone.edgeimpulse.com/keyword.html?apiKey=ei_5d252c97331d8d9651c2fd44168aa5f06d9d1ca6852caef1&sampleLength=30000&keyword=pause&frequency=16000) 
+
+* [Answer](https://smartphone.edgeimpulse.com/keyword.html?apiKey=ei_5d252c97331d8d9651c2fd44168aa5f06d9d1ca6852caef1&sampleLength=30000&keyword=answer&frequency=16000) 
+
+* [Ignore](https://smartphone.edgeimpulse.com/keyword.html?apiKey=ei_5d252c97331d8d9651c2fd44168aa5f06d9d1ca6852caef1&sampleLength=30000&keyword=ignore&frequency=16000) 
+
+* [Unknown](ttps://smartphone.edgeimpulse.com/keyword.html?apiKey=ei_5d252c97331d8d9651c2fd44168aa5f06d9d1ca6852caef1&sampleLength=30000&keyword=unknown&frequency=16000) (any word that are not `Play`, `Pause`, `Answer` or `Ignore`).  
+
 ## Individual Project: Movement classification using a 3-axis accelerometer
 
 In this project we will try to classify 5 kind of movements sampled at 100Hz: 
