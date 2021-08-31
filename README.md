@@ -9,7 +9,6 @@ This example has been designed for the [EOT - Electronic of Tomorrow 2021](https
 ## Workshop Agenda
 
 1. **Introduction** (~10 min)
-2. **Setup local environment** (~15 min)
 2. **Colaborative Project: Keyword Spotting using a microphone** (~20 min)
 3. **Individual Project: Movement classification using a 3-axis accelerometer** 
  * Flash default Edge Impulse firmware (~15 min)
@@ -20,6 +19,7 @@ This example has been designed for the [EOT - Electronic of Tomorrow 2021](https
  * Validate your model (~5 min)
  * Deploy your model (~15 min)
  * Going further: Adding your custom logic to the default firmware (~15 min)
+4. **Resources: Setup local environment** (~15 min)
 
 
 
@@ -43,36 +43,6 @@ Thunderboard Sense 2 User's Guide: [Download PDF](https://www.silabs.com/documen
 * [Edge Impulse Studio](https://studio.edgeimpulse.com/)
 * [Edge Impulse CLI](https://docs.edgeimpulse.com/docs/cli-installation)
 * [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
-
-## Setup your local environment 
-
-You can download the tools while we do the first collaborative project together so you can save time. Below is a quick guide on how to setup Simplicity Studio 5:
-
-### Simplicity Studio
-
-Download Simplicity Studio from this link: [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
-
-Use the provided installer to install it on your local machine.
-
-Once installed, you should see the following view:
-
-![ss5-installation-1](assets/ss5-installation-1.png)
-
-Accept the agreements and create an account:
-
-![ss5-create-account](assets/ss5-create-account.png)
-
-Click on install in the menu and click on `Install by connecting device(s)`:
-
-![ss5-installation-2](assets/ss5-installation-2.png)
-
-Connect your SiLabs Thunderboard Sense 2 board to your computer using a micro usb:
-
-![ss5-installation-3](assets/ss5-installation-3.png)
-
-Now use the default parameters to install the required SDKs and dependencies. This step can take up to 15 minutes depending on your internet connection. Once finish, you will need to restart Simplicity Studio 5:
-
-![ss5-installation-6](assets/ss5-installation-6.png)
 
 ## Colaborative Project: Keyword Spotting using a microphone
 
@@ -276,6 +246,8 @@ Starting inferencing in 2 seconds...
 
 #### Build the firmware from the C++ library
 
+To install Simplicity Studio 5, please see the last section of this tutorial: [Resources: Setup your local environment](#resources-setup-your-local-environment)
+
 To build the firmware from the C++ library using Simplicity Studio 5, we will import a simplicity project file (`.sls` file), replace some generated folders in the `edgeimpulse` folder in order to build the firmware according to your projects parameters and finally, flash the firmware.
 
 First open Simplicity Studio 5 and import the `simplicity-studio` folder present in this repository:
@@ -452,3 +424,33 @@ else if(strcmp(result.classification[ix].label, "unknown") == 0 && result.classi
 Now compile your code and flash it again, you will see the LEDs changing colors as you change your movements:
 
 ![silabs-movements](assets/silabs-movements.gif)
+
+## Resources: Setup your local environment 
+
+You can download the tools while we do the first collaborative project together so you can save time. Below is a quick guide on how to setup Simplicity Studio 5:
+
+### Simplicity Studio
+
+Download Simplicity Studio from this link: [Simplicity Studio 5](https://www.silabs.com/developers/simplicity-studio).
+
+Use the provided installer to install it on your local machine.
+
+Once installed, you should see the following view:
+
+![ss5-installation-1](assets/ss5-installation-1.png)
+
+Accept the agreements and create an account:
+
+![ss5-create-account](assets/ss5-create-account.png)
+
+Click on install in the menu and click on `Install by connecting device(s)`:
+
+![ss5-installation-2](assets/ss5-installation-2.png)
+
+Connect your SiLabs Thunderboard Sense 2 board to your computer using a micro usb:
+
+![ss5-installation-3](assets/ss5-installation-3.png)
+
+Now use the default parameters to install the required SDKs and dependencies. This step can take up to 15 minutes depending on your internet connection. Once finish, you will need to restart Simplicity Studio 5:
+
+![ss5-installation-6](assets/ss5-installation-6.png)
